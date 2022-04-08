@@ -1,23 +1,36 @@
-/*
- * fir_filter.h
+/**
+ * @file    fir_filter.h
  *
- *  Created on: 24 Dec 2021
- *      Author: ghowell
+ * @brief   Basic FIR filters
+ *  
+ * @par
+ * Created On: 24/12/22
+ * Created By: G. Howell
  */
 
-#ifndef _FIR_FILTER_H_
-#define _FIR_FILTER_H_
+#ifndef __FIR_FILTER_H__
+#define __FIR_FILTER_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*------------------- INCLUDES -----------------------------------*/
 
 #include <stdint.h>
 
-#define NO_TAPS         2
+/*------------------- MACROS AND DEFINES -------------------------*/
 
-static float shiftReg[NO_TAPS];
+#define NUM_TAPS                2
 
-/*
- * API's
- */
+/*------------------- TYPEDEFS -----------------------------------*/
+/*------------------- EXPORTED VARIABLES -------------------------*/
+/*------------------- GLOBAL FUNCTION PROTOTYPES -----------------*/
 
 float FIR_Filter_Float(float sampleData, float *bCoeffs);
 
-#endif /* _FIR_FILTER_H_ */
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* __FIR_FILTER_H__ */
