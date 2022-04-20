@@ -32,7 +32,7 @@
 MAT_MatrixStructDef *MAT_CreateMatrix(uint32_t noRows, uint32_t noCols)
 {
     // create matrix structure
-    LAL_MatrixDef *mat = calloc(1, sizeof(*mat));
+    MAT_MatrixStructDef *mat = calloc(1, sizeof(*mat));
     
     // assign rows and columns
     mat->noRows = noRows;
