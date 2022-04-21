@@ -73,6 +73,29 @@ void MAT_FreeMatrix(MAT_MatrixStructDef *inputMat)
 }
 
 /**
+ * @brief   Loads the multidimensional array into the matrix 
+ *          structure pointer to pointer data variable
+ *
+ * @param   matStruct       matrix typedef structure to load
+ *                          data into
+ * @param   multidimArray   multidimensional array to load
+ *                          data from
+ *
+ * @return
+ */
+void MAT_LoadMultidimensionalArray(MAT_MatrixStructDef *matStruct, float *multidimArray)
+ {
+    int32_t rowIdx, colIdx;
+    for (colIdx=0; colIdx<matStruct->noCols; colIdx++)
+    {
+        for (rowIdx=0; rowIdx<matStruct->noRows; rowIdx++)
+        {
+            matStruct->mData[rowIdx][colIdx] = multidimArray[rowIdx + colIdx * matStruct->noCols];
+        }
+    }
+ }
+
+/**
  * @brief   Free's the matrix data and structure
  *
  * @param   inputMat    matrix typedef structure

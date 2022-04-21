@@ -35,6 +35,7 @@ typedef struct
 
 MAT_MatrixStructDef *MAT_CreateMatrix(uint32_t noRows, uint32_t noCols);
 void MAT_FreeMatrix(MAT_MatrixStructDef *inputMat);
+void MAT_LoadMultidimensionalArray(MAT_MatrixStructDef *matStruct, float *multidimArray);
 float *MAT_ExtractVector(MAT_MatrixStructDef *inputMat);
 
 #ifdef __cplusplus
