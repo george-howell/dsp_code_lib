@@ -11,6 +11,7 @@
 /*------------------- INCLUDES -----------------------------------*/
 
 #include "mat_matrix_structure.h"
+#include <stdio.h>
 
 /*------------------- EXTERN VARIABLES ---------------------------*/
 /*------------------- PRIVATE MACROS AND DEFINES -----------------*/
@@ -84,7 +85,7 @@ void MAT_FreeMatrix(MAT_MatrixStructDef *inputMat)
  * @return
  */
 void MAT_LoadMultidimensionalArray(MAT_MatrixStructDef *matStruct, float *multidimArray)
- {
+{
     int32_t rowIdx, colIdx;
     for (colIdx=0; colIdx<matStruct->noCols; colIdx++)
     {
@@ -93,7 +94,7 @@ void MAT_LoadMultidimensionalArray(MAT_MatrixStructDef *matStruct, float *multid
             matStruct->mData[rowIdx][colIdx] = multidimArray[rowIdx + colIdx * matStruct->noCols];
         }
     }
- }
+}
 
 /**
  * @brief   Free's the matrix data and structure
@@ -125,3 +126,26 @@ float *MAT_ExtractVector(MAT_MatrixStructDef *inputMat)
 
     return vector;
 }
+
+/**
+ * @brief   Prints the data in the matrix
+ *
+ * @param   inputMat    matrix typedef structure
+ * @param   fmtType     data format type
+ */
+void MAT_PrintMatrix(MAT_MatrixStructDef *inputMat, char fmtType[])
+{
+    char strTmp[100];
+
+    uint32_t rowIdx, colIdx;
+    for (rowIdx=0; rowIdx<inputMat->noRows; rowIdx++)
+    {
+        for (colIdx=0; colIdx<inputMat->noCols; colIdx++)
+        {
+            sprintf(strTmp, fmtType, inputMat->mData[rowIdx][colIdx]);
+            printf("%s\t", strTmp);
+        }
+        printf("\n");
+    }
+}
+
