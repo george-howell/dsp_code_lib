@@ -36,6 +36,8 @@ typedef struct
 MAT_MatrixStructDef *MAT_CreateMatrix(uint32_t noRows, uint32_t noCols);
 void MAT_FreeMatrix(MAT_MatrixStructDef *inputMat);
 void MAT_LoadMultidimensionalArray(MAT_MatrixStructDef *matStruct, float *multidimArray);
+void MAT_LoadRowVector(MAT_MatrixStructDef *matStruct, float *rowVec);
+void MAT_LoadColumnVector(MAT_MatrixStructDef *matStruct, float *colVec);
 float *MAT_ExtractVector(MAT_MatrixStructDef *inputMat);
 void MAT_PrintMatrix(MAT_MatrixStructDef *inputMat, char fmtType[]);
 
