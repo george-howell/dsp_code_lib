@@ -37,6 +37,7 @@ MAT_MatrixStructDef *LAL_Adjoint(MAT_MatrixStructDef *inputMat);
 MAT_MatrixStructDef *LAL_Inverse(MAT_MatrixStructDef *inputMat);
 MAT_MatrixStructDef *LAL_ScalerMultiply(MAT_MatrixStructDef *inputMat, float scalFactor);
 MAT_MatrixStructDef *LAL_Multiply(MAT_MatrixStructDef *inputMat, MAT_MatrixStructDef *inputVec);
+MAT_MatrixStructDef *LAL_Toeplitz(MAT_MatrixStructDef *pRowData, MAT_MatrixStructDef *pColData, uint32_t size);
 
 #ifdef __cplusplus
 }

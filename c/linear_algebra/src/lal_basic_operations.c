@@ -347,3 +347,43 @@ MAT_MatrixStructDef *LAL_Multiply(MAT_MatrixStructDef *inputMat, MAT_MatrixStruc
 
     return multiMat;   
 }
+
+/*
+ * @brief   Creates a toeplitz matrix from a row and column 
+ *          data array of size [len x len];
+ *
+ * @param   pRowData    pointer to array for row entries
+ * @param   pColData    pointer to array for column entries
+ * @param   size        size of matrix
+ *
+ * @return  Two dimensional toeplitz matrix
+ *
+ * @notes   Arrays must be of the same length and the inital 
+ *          value must be the same, i.e. pRowData[0]==pColData[0]
+ */
+MAT_MatrixStructDef *LAL_Toeplitz(MAT_MatrixStructDef *pRowData, MAT_MatrixStructDef *pColData, uint32_t size)
+{
+    MAT_MatrixStructDef *toeplitzMat = MAT_CreateMatrix(size, size);
+
+    int32_t rowIdx, colIdx;
+
+    // create upper triangular matrix from row data
+    for (rowIdx=0; rowIdx<size; rowIdx++)
+    {
+        for (colIdx=rowIdx; colIdx<size; colIdx++)
+        {
+            toeplitzMat->mData[rowIdx][colIdx] = pRowData->mData[0][colIdx-rowIdx];
+        }
+    }
+
+    // create lower triangular matrix for column data
+    for (rowIdx=1; rowIdx<size; rowIdx++)
+    {
+        for (colIdx=0; colIdx<rowIdx; colIdx++)
+        {
+            toeplitzMat->mData[rowIdx][colIdx] = pColData->mData[-colIdx+rowIdx][0];
+        }
+    }
+    
+    return toeplitzMat;
+}
