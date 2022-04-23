@@ -190,31 +190,6 @@ MAT_MatrixStructDef *LAL_HadarmardDivison(MAT_MatrixStructDef *numMat, MAT_Matri
 }
 
 /**
- * @brief   Performs element wise scaler division of two matrices.
- *
- * @param   numMat  numerator matrix definition structure
- * @param   den     scalar denominator value
- *
- * @return  Pointer to scalar divison matrix definition
- */
-MAT_MatrixStructDef *LAL_ScalarDivison(MAT_MatrixStructDef *numMat, float den)
-{
-    // create divison matrix
-    MAT_MatrixStructDef *divMat;
-    divMat = MAT_CreateMatrix(numMat->noRows, numMat->noCols);
-
-    for (uint32_t rowIdx=0; rowIdx<numMat->noRows; rowIdx++)
-    {
-        for (uint32_t colIdx=0; colIdx<numMat->noCols; colIdx++)
-        {
-             divMat->mData[rowIdx][colIdx] = numMat->mData[rowIdx][colIdx]/den;
-        }
-    }
-
-    return divMat;
-}
-
-/**
  * @brief   Transpose a NxM matrix
  *
  * @param   inputMat    matrix structure definition
@@ -290,6 +265,31 @@ MAT_MatrixStructDef *LAL_Inverse(MAT_MatrixStructDef *inputMat)
 }
 
 /**
+ * @brief   Adds a scalar factor to the matrix elements
+ *
+ * @param   inputMat    matrix definition structure
+ * @param   scalFactor  scalar factor
+ *
+ * @return  Pointer to sum matrix definition
+ */
+MAT_MatrixStructDef *LAL_ScalerAddition(MAT_MatrixStructDef *inputMat, float scalFactor)
+{
+    // create scaler mulitple matrix
+    MAT_MatrixStructDef *sumMat = MAT_CreateMatrix(inputMat->noRows, inputMat->noCols);
+
+    // mulitple matrix by scalar value
+    for (uint32_t rowIdx=0; rowIdx<inputMat->noRows; rowIdx++)
+    {
+        for (uint32_t colIdx=0; colIdx<inputMat->noCols; colIdx++)
+        {
+             sumMat->mData[colIdx][rowIdx] = scalFactor + inputMat->mData[rowIdx][colIdx];
+        }
+    }
+
+    return sumMat;  
+}
+
+/**
  * @brief   Multiplies a matrix by a scalar value
  *
  * @param   inputMat    matrix definition structure
@@ -313,6 +313,31 @@ MAT_MatrixStructDef *LAL_ScalerMultiply(MAT_MatrixStructDef *inputMat, float sca
     }
 
     return scalMat;   
+}
+
+/**
+ * @brief   Performs element wise scaler division of two matrices.
+ *
+ * @param   numMat  numerator matrix definition structure
+ * @param   den     scalar denominator value
+ *
+ * @return  Pointer to scalar divison matrix definition
+ */
+MAT_MatrixStructDef *LAL_ScalarDivison(MAT_MatrixStructDef *numMat, float den)
+{
+    // create divison matrix
+    MAT_MatrixStructDef *divMat;
+    divMat = MAT_CreateMatrix(numMat->noRows, numMat->noCols);
+
+    for (uint32_t rowIdx=0; rowIdx<numMat->noRows; rowIdx++)
+    {
+        for (uint32_t colIdx=0; colIdx<numMat->noCols; colIdx++)
+        {
+             divMat->mData[rowIdx][colIdx] = numMat->mData[rowIdx][colIdx]/den;
+        }
+    }
+
+    return divMat;
 }
 
 /**
@@ -387,3 +412,51 @@ MAT_MatrixStructDef *LAL_Toeplitz(MAT_MatrixStructDef *pRowData, MAT_MatrixStruc
     
     return toeplitzMat;
 }
+
+/**
+ * @brief   Takes a row or column vector and shifts the data by the
+ *          +/- shift value
+ *
+ * @param   inputVec    matrix definition structure
+ * @param   shiftVal    shift value
+ *
+ * @return  Pointer to shifted data
+ */
+MAT_MatrixStructDef *LAL_ShiftVector(MAT_MatrixStructDef *inputVec, int32_t shiftVal)
+{
+    MAT_MatrixStructDef *shiftVec = MAT_CreateMatrix(inputVec->noRows, inputVec->noCols);
+
+    if inputVec->noCols>1
+    {
+        uint32_t colIdx;
+        for (colIdx=shiftVal; colIdx<inputVec->noCols, colIdx++)
+        {
+            if (shiftVal>0)
+            {
+                shiftVec[0][colIdx] = inputVec->mData[0][colIdx-shiftVal];
+            }
+            else
+            {
+                shiftVec[0][colIdx-shiftVal] = inputVec->mData[0][colIdx];
+            }
+        }
+    }
+    else
+    {
+        uint32_t rowIdx;
+        for (rowIdx=shiftVal; rowIdx<inputVec->noCols, rowIdx++)
+        {
+            if (shiftVal>0)
+            {
+                shiftVec[rowIdx][0] = inputVec->mData[rowIdx-shiftVal][0];
+            }
+            else
+            {
+                shiftVec[rowIdx-shiftVal][0] = inputVec->mData[rowIdx][0];
+            }
+        }
+    }
+
+    return shiftVec;
+}
+
