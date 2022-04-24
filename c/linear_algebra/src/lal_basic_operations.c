@@ -426,37 +426,78 @@ MAT_MatrixStructDef *LAL_ShiftVector(MAT_MatrixStructDef *inputVec, int32_t shif
 {
     MAT_MatrixStructDef *shiftVec = MAT_CreateMatrix(inputVec->noRows, inputVec->noCols);
 
-    if inputVec->noCols>1
+    if (inputVec->noCols>1)
     {
-        uint32_t colIdx;
-        for (colIdx=shiftVal; colIdx<inputVec->noCols, colIdx++)
+        if (shiftVal>0)
         {
-            if (shiftVal>0)
+            uint32_t colIdx;
+            for (colIdx=shiftVal; colIdx<inputVec->noCols; colIdx++)
             {
-                shiftVec[0][colIdx] = inputVec->mData[0][colIdx-shiftVal];
+                shiftVec->mData[0][colIdx] = inputVec->mData[0][colIdx-shiftVal];
             }
-            else
+        }
+        else
+        {
+            uint32_t colIdx;
+            for (colIdx=(-shiftVal); colIdx<inputVec->noCols; colIdx++)
             {
-                shiftVec[0][colIdx-shiftVal] = inputVec->mData[0][colIdx];
-            }
+                shiftVec->mData[0][colIdx+shiftVal] = inputVec->mData[0][colIdx];
+            } 
         }
     }
     else
     {
-        uint32_t rowIdx;
-        for (rowIdx=shiftVal; rowIdx<inputVec->noCols, rowIdx++)
+        if (shiftVal>0)
         {
-            if (shiftVal>0)
+            uint32_t rowIdx;
+            for (rowIdx=shiftVal; rowIdx<inputVec->noRows; rowIdx++)
             {
-                shiftVec[rowIdx][0] = inputVec->mData[rowIdx-shiftVal][0];
+                shiftVec->mData[rowIdx][0] = inputVec->mData[rowIdx-shiftVal][0];
             }
-            else
+        }
+        else
+        {
+            uint32_t rowIdx;
+            for (rowIdx=(-shiftVal); rowIdx<inputVec->noRows; rowIdx++)
             {
-                shiftVec[rowIdx-shiftVal][0] = inputVec->mData[rowIdx][0];
-            }
+                shiftVec->mData[rowIdx+shiftVal][0] = inputVec->mData[rowIdx][0];
+            } 
         }
     }
 
     return shiftVec;
 }
 
+/**
+ * @brief   Multiplies and accumulates either two row or column vectors
+ *          of the same length
+ *
+ * @param   inputVec1   input vector 1
+ * @param   inputVec2   input vector 2
+ *
+ * @return  MAC value
+ */
+
+float LAL_MACVectors(MAT_MatrixStructDef *inputVec1, MAT_MatrixStructDef *inputVec2)
+{
+	float acc = 0;
+
+    if (inputVec1->noCols>1)
+    {
+        uint32_t colIdx;
+        for (colIdx=0; colIdx<inputVec1->noCols; colIdx++)
+        {
+            acc = acc + (inputVec1->mData[0][colIdx]*inputVec2->mData[0][colIdx]);
+        }
+    }
+    else
+    {
+        uint32_t rowIdx;
+        for (rowIdx=0; rowIdx<inputVec1->noRows; rowIdx++)
+        {
+            acc = acc + (inputVec1->mData[rowIdx][0]*inputVec2->mData[rowIdx][0]);
+        }   
+    }
+
+    return acc;
+}

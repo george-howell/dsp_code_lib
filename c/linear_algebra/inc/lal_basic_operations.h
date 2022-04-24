@@ -40,6 +40,7 @@ MAT_MatrixStructDef *LAL_ScalarDivison(MAT_MatrixStructDef *numMat, float den);
 MAT_MatrixStructDef *LAL_Multiply(MAT_MatrixStructDef *inputMat, MAT_MatrixStructDef *inputVec);
 MAT_MatrixStructDef *LAL_Toeplitz(MAT_MatrixStructDef *pRowData, MAT_MatrixStructDef *pColData, uint32_t size);
 MAT_MatrixStructDef *LAL_ShiftVector(MAT_MatrixStructDef *inputVec, int32_t shiftVal);
+float LAL_MACVectors(MAT_MatrixStructDef *inputVec1, MAT_MatrixStructDef *inputVec2);
 
 #ifdef __cplusplus
 }
