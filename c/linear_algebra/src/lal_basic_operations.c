@@ -282,7 +282,7 @@ MAT_MatrixStructDef *LAL_ScalerAddition(MAT_MatrixStructDef *inputMat, float sca
     {
         for (uint32_t colIdx=0; colIdx<inputMat->noCols; colIdx++)
         {
-             sumMat->mData[colIdx][rowIdx] = scalFactor + inputMat->mData[rowIdx][colIdx];
+             sumMat->mData[rowIdx][colIdx] = scalFactor + inputMat->mData[rowIdx][colIdx];
         }
     }
 
